@@ -1,4 +1,5 @@
 # Stock
+[![Flutter](https://github.com/woodRock/probable-dollop/actions/workflows/flutter.yml/badge.svg)](https://github.com/woodRock/probable-dollop/actions/workflows/flutter.yml)
 
 A new Flutter project.
 
