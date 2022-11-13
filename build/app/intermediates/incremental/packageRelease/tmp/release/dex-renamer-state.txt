@@ -1,4 +1,0 @@
-#Mon Nov 14 02:43:55 NZDT 2022
-base.0=/home/woodj/Documents/probable-dollop/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
