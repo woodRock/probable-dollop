@@ -11,11 +11,45 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stock/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('App title is correct test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
+    // Verify the title of the app is correct.
     expect(find.text('Startup Name Generator'), findsOneWidget);
+  });
+
+  testWidgets("Add startup name to favorites test", (WidgetTester tester) async {
+    //Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    // Tap the favorite button for the first tile.
+    await tester.tap(find.byType(ListView).first);
+
+    // Rebuild the widget after the state has changed.
+    await tester.pump();
+
+    // One startup should have a heart filled in.
+    expect(find.byIcon(Icons.favorite), findsOneWidget);
+  });
+
+  testWidgets("Remove startup from favorites test", (WidgetTester tester) async {
+    //Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    // Tap startup to add to favorites.
+    await tester.tap(find.byType(ListView).first);
+
+    // Rebuild the widget after the state has changed.
+    await tester.pump();
+
+    // Tap again to remove from favorites
+    await tester.tap(find.byType(ListView).first);
+
+    // Rebuild the widget after the state has changed.
+    await tester.pump();
+
+    // No startups should have their hearts filled in.
+    expect(find.byIcon(Icons.favorite), findsNothing);
   });
 }
