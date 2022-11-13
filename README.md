@@ -21,6 +21,14 @@ samples, guidance on mobile development, and a full API reference.
 Currently this project is an implementation of the [tutorial](https://docs.flutter.dev/get-started/codelab
 ) from the flutter docs.
 
+## Build Android APK
+
+We can build an android APK for the application that can be downloaded and installed on android devices for offline use. The APK is the release version of the application, and can be found in the `build/app/outputs/flutter-apk/app-release.apk` here.
+
+```bash
+$ flutter build apk
+```
+
 ## Setup Development environment
 
 First we install the java sdk.
