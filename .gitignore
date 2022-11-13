@@ -3,7 +3,10 @@
 # Files and directories created by pub
 .dart_tool/
 .packages
-build/
+
+# If we wan't to ignore the build file where the APK is produced.
+#build/
+
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock
 
