@@ -10,7 +10,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/woodj
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.6.0] /home/woodj/.gradle/caches/transforms-3/acbce933e4b464a5224ed377a62db1f5/transformed/core-1.6.0/AndroidManifest.xml:24:18-86
 	android:label
-		ADDED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml:4:9-30
+		ADDED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml:4:9-28
 	android:icon
 		ADDED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml:6:9-43
 	android:name
