@@ -1,7 +1,6 @@
 -- Merging decision tree log ---
 application
 INJECTED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml:3:4-33:19
-INJECTED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml:3:4-33:19
 MERGED from [androidx.window:window:1.0.0-beta04] /home/woodj/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.window:window:1.0.0-beta04] /home/woodj/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.core:core:1.6.0] /home/woodj/.gradle/caches/transforms-3/acbce933e4b464a5224ed377a62db1f5/transformed/core-1.6.0/AndroidManifest.xml:24:5-89
@@ -11,8 +10,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/woodj
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.6.0] /home/woodj/.gradle/caches/transforms-3/acbce933e4b464a5224ed377a62db1f5/transformed/core-1.6.0/AndroidManifest.xml:24:18-86
 	android:label
-		INJECTED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml:4:9-43
+		ADDED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml:4:9-30
 	android:icon
 		ADDED from /home/woodj/Documents/probable-dollop/android/app/src/main/AndroidManifest.xml:6:9-43
 	android:name
