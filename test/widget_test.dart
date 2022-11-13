@@ -16,6 +16,6 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     // Verify that our counter starts at 0.
-    expect(find.text('Hello, World!'), findsOneWidget);
+    expect(find.text('Startup Name Generator'), findsOneWidget);
   });
 }
