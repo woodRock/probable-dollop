@@ -16,6 +16,11 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Tutorial from Flutter Docs
+
+Currently this project is an implementation of the [tutorial](https://docs.flutter.dev/get-started/codelab
+) from the flutter docs.
+
 ## Setup Development environment
 
 First we install the java sdk.
