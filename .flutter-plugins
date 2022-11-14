@@ -8,3 +8,4 @@ shared_preferences_linux=/home/woodj/snap/flutter/common/flutter/.pub-cache/host
 shared_preferences_macos=/home/woodj/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-2.0.4/
 shared_preferences_web=/home/woodj/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-2.0.4/
 shared_preferences_windows=/home/woodj/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-2.1.1/
+sqflite=/home/woodj/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.2.0+3/

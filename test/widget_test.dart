@@ -16,10 +16,10 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     // Verify the title of the app is correct.
-    expect(find.text('Startup Name Generator'), findsOneWidget);
+    expect(find.text('Groceries'), findsOneWidget);
   });
 
-  testWidgets("Add startup name to favorites test", (WidgetTester tester) async {
+  testWidgets("Add grocery to favorites test", (WidgetTester tester) async {
     //Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
@@ -33,7 +33,7 @@ void main() {
     expect(find.byIcon(Icons.favorite), findsOneWidget);
   });
 
-  testWidgets("Remove startup from favorites test", (WidgetTester tester) async {
+  testWidgets("Remove grocery from favorites test", (WidgetTester tester) async {
     //Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
@@ -49,7 +49,8 @@ void main() {
     // Rebuild the widget after the state has changed.
     await tester.pump();
 
-    // No startups should have their hearts filled in.
-    expect(find.byIcon(Icons.favorite), findsNothing);
+    // There should only be one heart, the link the favorites, showing.
+    // No groceries should have a favorite icon.
+    expect(find.byIcon(Icons.favorite), findsOneWidget);
   });
 }
