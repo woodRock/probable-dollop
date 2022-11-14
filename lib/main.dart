@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +36,29 @@ class _RandomWordsState extends State<RandomWords> {
   final _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18);
 
+  late String name;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSaved();
+  }
+
+  Future<void> _loadSaved() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('name') ?? '';
+    });
+  }
+
+  Future<void> _setName() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('name') ?? '';
+      prefs.setString('name', WordPair.random().toString());
+    });
+  }
+
   void _pushSaved() {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -58,7 +82,7 @@ class _RandomWordsState extends State<RandomWords> {
 
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Saved Suggestions')
+                title: Text('$name\'s favori tes')
               ),
               body: ListView(children: divided),
             );
@@ -71,11 +95,16 @@ class _RandomWordsState extends State<RandomWords> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Startup Name Generator'),
-          actions: [
+            actions: [
             IconButton(
               icon: const Icon(Icons.list),
               onPressed: _pushSaved,
               tooltip: 'Saved Suggestions',
+            ),
+            IconButton(
+                icon: const Icon(Icons.person),
+                onPressed: _setName,
+                tooltip: 'Set Name',
             )
           ]
         ),
