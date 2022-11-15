@@ -3,11 +3,13 @@
 /// This is the Grocery Model, it represents a grocery from a supermarket.
 class Grocery {
   final int id;
+  final String icon;
   final String name;
   final double price;
 
   const Grocery({
     required this.id,
+    required this.icon,
     required this.name,
     required this.price,
   });
@@ -17,6 +19,7 @@ class Grocery {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'icon': icon,
       'name': name,
       'price': price,
     };
@@ -26,6 +29,6 @@ class Grocery {
   // each dog when using the print statement.
   @override
   String toString() {
-    return 'Grocery{id: $id, name: $name, price: $price}';
+    return 'Grocery{id: $id, icon: $icon, name: $name, price: $price}';
   }
 }

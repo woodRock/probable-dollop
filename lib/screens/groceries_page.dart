@@ -54,6 +54,51 @@ class _GroceriesPageState extends State<GroceriesPage> {
     });
   }
 
+  /// Drop the database.
+  Future<void> _resetDatabase() async {
+    AlertDialog alert = AlertDialog(
+        title: const Text('Delete all groceries?'),
+        content: const Text('This will remove all groceries from your list.'),
+        actions: [
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () {
+              // Dismiss the dialog.
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text("Confirm"),
+            onPressed: () async {
+              // Drop the groceries table from the database.
+              await GroceriesDatabase.instance.refreshGroceryTable();
+              // Update the groceries from database.
+              refreshGroceries();
+              // Dismiss the dialog.
+              Navigator.of(context).pop();
+            },
+          ),
+        ]
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  /// This function removes a grocery from the database and refreshes the snapshot.
+  void _deleteGrocery(Grocery grocery) async {
+    // Remove a grocery from the database.
+    await GroceriesDatabase.instance.deleteGrocery(grocery.id);
+    // Update the groceries from database.
+    refreshGroceries();
+    counter = counter - 1;
+  }
+
   /// Refreshes the snapshot of the groceries database.
   Future<void> refreshGroceries() async {
     // Gets the users name from the preferences.
@@ -74,13 +119,15 @@ class _GroceriesPageState extends State<GroceriesPage> {
     counter = _groceries.length;
   }
 
-  /// This function removes a grocery from the database and refreshes the snapshot.
-  void _deleteGrocery(Grocery grocery) async {
-    // Remove a grocery from the database.
-    await GroceriesDatabase.instance.deleteGrocery(grocery.id);
-    // Update the groceries from database.
-    refreshGroceries();
-    counter = counter - 1;
+  /// Add a grocery to the favorites.
+  void addToFavorites(bool alreadySaved, Grocery grocery) {
+    setState(() {
+      if (alreadySaved) {
+        _saved.remove(grocery);
+      } else {
+        _saved.add(grocery);
+      }
+    });
   }
 
   @override
@@ -89,6 +136,11 @@ class _GroceriesPageState extends State<GroceriesPage> {
         appBar: AppBar(
             title: const Text('Groceries'),
             actions: [
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: _resetDatabase,
+                tooltip: 'Drop the database',
+              ),
               IconButton(
                 icon: const Icon(Icons.person),
                 onPressed: _setRandomName,
@@ -122,9 +174,16 @@ class _GroceriesPageState extends State<GroceriesPage> {
               return
                 GestureDetector (
                   child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.black,
+                      child: Text(_groceries[index].icon),
+                    ),
                     title: Text(
-                      _groceries[index].toString(),
+                      _groceries[index].name,
                       style: _biggerFont,
+                    ),
+                    subtitle: Text(
+                      _groceries[index].price.toString()
                     ),
                     trailing: Icon(
                       alreadySaved ? Icons.favorite : Icons.favorite_border,
@@ -132,19 +191,11 @@ class _GroceriesPageState extends State<GroceriesPage> {
                       semanticLabel: alreadySaved ? "Remove from saved" : "Save",
                     ),
                   ),
-                  onTap: () {
-                    setState(() {
-                      if (alreadySaved) {
-                        _saved.remove(_groceries[index]);
-                      } else {
-                        _saved.add(_groceries[index]);
-                      }
-                    });
-                  },
+                  onTap: () => addToFavorites(alreadySaved, _groceries[index]),
                   onLongPress: () => _editGrocery(_groceries[index]),
                   onDoubleTap: () => _deleteGrocery(_groceries[index]),
                 );
-            }
+            },
         )
     );
   }
@@ -155,14 +206,21 @@ class _GroceriesPageState extends State<GroceriesPage> {
         MaterialPageRoute(
             builder: (context) {
               final tiles = _saved.map(
-                    (grocery) {
-                  return ListTile(
-                      title: Text(
-                        grocery.toString(),
-                        style: _biggerFont,
-                      )
-                  );
-                },
+                (grocery) {
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.black,
+                    child: Text(grocery.icon),
+                  ),
+                  title: Text(
+                    grocery.name,
+                    style: _biggerFont,
+                  ),
+                  subtitle: Text(
+                    grocery.price.toString()
+                  ),
+                );
+              },
               );
               final divided = tiles.isNotEmpty?
               ListTile.divideTiles(
@@ -184,7 +242,7 @@ class _GroceriesPageState extends State<GroceriesPage> {
   /// When long tap on grocery, user can edit that item.
   void _addGrocery() {
     final formKey = GlobalKey<FormState>();
-    final idController = TextEditingController(text: counter.toString());
+    final iconController = TextEditingController(text: '🍌');
     final nameController = TextEditingController();
     final priceController = TextEditingController();
     Navigator.of(context).push(
@@ -200,6 +258,21 @@ class _GroceriesPageState extends State<GroceriesPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('ID: $counter'),
+                          TextFormField(
+                            // Text in grey shown before user input.
+                            decoration: const InputDecoration(
+                              hintText: "🍌 (pick an emoji)",
+                            ),
+                            keyboardType: TextInputType.name,
+                            controller: iconController,
+                            // The validator receives the text that the user has entered.
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          ),
                           TextFormField(
                             // Text in grey shown before user input.
                             decoration: const InputDecoration(
@@ -240,6 +313,7 @@ class _GroceriesPageState extends State<GroceriesPage> {
                                     // Construct the edited grocery.
                                     var newGrocery = Grocery(
                                         id: counter + 1,
+                                        icon: iconController.text,
                                         name: nameController.text,
                                         price: double.parse(priceController.text)
                                     );
@@ -271,6 +345,7 @@ class _GroceriesPageState extends State<GroceriesPage> {
   /// When long tap on grocery, user can edit that item.
   void _editGrocery(Grocery grocery) {
     final formKey = GlobalKey<FormState>();
+    final iconController = TextEditingController(text: grocery.icon);
     final nameController = TextEditingController(text: grocery.name);
     final priceController = TextEditingController(text: grocery.price.toString());
     Navigator.of(context).push(
@@ -285,6 +360,17 @@ class _GroceriesPageState extends State<GroceriesPage> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          TextFormField(
+                            // The validator receives the text that the user has entered.
+                            keyboardType: TextInputType.name,
+                            controller: iconController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          ),
                           TextFormField(
                             // The validator receives the text that the user has entered.
                             keyboardType: TextInputType.name,
@@ -320,6 +406,7 @@ class _GroceriesPageState extends State<GroceriesPage> {
                                     // Construct the edited grocery.
                                     var editedGrocery = Grocery(
                                         id: grocery.id,
+                                        icon: grocery.icon,
                                         name: nameController.text,
                                         price: double.parse(priceController.text)
                                     );

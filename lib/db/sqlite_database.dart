@@ -10,26 +10,40 @@ class GroceriesDatabase {
   static Database? _database;
   GroceriesDatabase._init();
 
+  /// Retrieve an instance of the database.
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB('groceries_db');
     return _database!;
   }
 
+  /// Intialize the SQLite database.
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
+  /// Create a SQLite database.
   Future _createDB(Database db, int version) async {
     await db.execute('''
         CREATE TABLE GROCERIES (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
+          icon TEXT NOT NULL,
           name TEXT NOT NULL,
           price REAL NOT NULL
         );
     ''');
+  }
+
+  /// Drop the table database from SQLite.
+  Future<void> refreshGroceryTable() async {
+    final db = await instance.database;
+    await db.execute('''
+        DROP TABLE GROCERIES;
+    ''');
+    // Recreate the table.
+    _createDB(db, 1);
   }
 
   /// A function that inserts a grocery into the database.
@@ -54,6 +68,7 @@ class GroceriesDatabase {
     return List.generate(maps.length, (i) {
       return Grocery(
         id: maps[i]['id'],
+        icon: maps[i]['icon'],
         name: maps[i]['name'],
         price: maps[i]['price'],
       );
