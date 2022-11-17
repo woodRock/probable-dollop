@@ -17,9 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Groceries',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black
-        ),
+            backgroundColor: Colors.white, foregroundColor: Colors.black),
       ),
       home: const GroceriesPage(),
     );

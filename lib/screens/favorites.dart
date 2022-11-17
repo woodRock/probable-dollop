@@ -1,3 +1,7 @@
+/// Favorites screen - favorite.dart
+/// ===============================
+/// The favorites screen gives a list of the groceries that have been favorited.
+/// It calculates the total cost of the list, and displays this at the bottom.
 import 'package:english_words/english_words.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/grocery.dart';
 
 class FavoritesPage extends StatefulWidget {
-
   final Set<Grocery> saved;
 
   const FavoritesPage({Key? key, required this.saved}) : super(key: key);
@@ -16,13 +19,12 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-
   /// The users first name, used to identify their favorites.
   late String firstName;
   final _biggerFont = const TextStyle(fontSize: 18);
 
-  @override
   /// Retrieve snapshot of the SQLite database on open.
+  @override
   void initState() {
     super.initState();
     refreshGroceries();
@@ -54,17 +56,24 @@ class _FavoritesPageState extends State<FavoritesPage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  /// Calculate and format the total price of all favorite groceries.
+  String calculateTotal() {
     // Calculate the total price for all items in favorites.
     var prices = widget.saved.map((e) => e.price);
     // Check if favorites empty, to avoid trying to reduce an empty list.
-    var subtotal = prices.isNotEmpty? prices.reduce((sum, element) => sum + element) : 0.0;
+    var subtotal = prices.isNotEmpty
+        ? prices.reduce((sum, element) => sum + element)
+        : 0.0;
     // Round the price to 2 decimal places, as convention with money totals.
     var total = subtotal.toStringAsFixed(2);
+    return total;
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    // Construct a list of favorites tiles (this can be empty!)
     final tiles = widget.saved.map(
-          (grocery) {
+      (grocery) {
         return ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.black,
@@ -74,25 +83,19 @@ class _FavoritesPageState extends State<FavoritesPage> {
             grocery.name,
             style: _biggerFont,
           ),
-          subtitle: Text(
-              '\$${grocery.price.toString()}'
-          ),
+          subtitle: Text('\$${grocery.price.toString()}'),
           trailing: GestureDetector(
-            child: Icon(Icons.delete),
+            child: const Icon(Icons.delete),
             onTap: () => _removeFromFavorites(grocery),
           ),
         );
       },
     );
-
-    final divided = tiles.isNotEmpty?
-    ListTile.divideTiles(
-        context: context,
-        tiles: tiles
-    ).toList()
-        :
-    <Widget>[];
-
+    // Check if there are favorites, otherwise return empty list.
+    final divided = tiles.isNotEmpty
+        ? ListTile.divideTiles(context: context, tiles: tiles).toList()
+        : <Widget>[];
+    // Favorites screen.
     return Scaffold(
       appBar: AppBar(
         title: Text('$firstName\'s favorites'),
@@ -104,22 +107,24 @@ class _FavoritesPageState extends State<FavoritesPage> {
           ),
         ],
       ),
+      // Give the favorites list.
       body: ListView(children: divided),
+      // Display the total cost at the bottom of the page.
       bottomSheet: ListTile(
         leading: const CircleAvatar(
           backgroundColor: Colors.black,
           child: Icon(Icons.shopping_cart),
         ),
-        title: Text('Total: \$$total'),
+        title: Text('Total: \$${calculateTotal()}'),
         tileColor: Colors.black,
         textColor: Colors.white,
       ),
+      // TODO share button offers prompt to share the grocery list as text.
       floatingActionButton: FloatingActionButton(
         onPressed: () => {},
-        child: const Icon(Icons.share),
         backgroundColor: Colors.red,
+        child: const Icon(Icons.share),
       ),
     );
   }
-
 }

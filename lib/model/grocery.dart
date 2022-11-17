@@ -31,7 +31,7 @@ class Grocery {
     return 'Grocery{id: $id, icon: $icon, name: $name, price: $price}';
   }
 
-  /// Two groceries are equal to eachother, if they have matching ids.
+  /// Two groceries are equal to each other, if they have matching ids.
   @override
   bool operator ==(other) {
     if (other is! Grocery) {

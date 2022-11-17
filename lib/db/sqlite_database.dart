@@ -8,6 +8,7 @@ import 'package:stock/model/grocery.dart';
 class GroceriesDatabase {
   static final GroceriesDatabase instance = GroceriesDatabase._init();
   static Database? _database;
+
   GroceriesDatabase._init();
 
   /// Retrieve an instance of the database.
@@ -60,10 +61,8 @@ class GroceriesDatabase {
   Future<List<Grocery>> groceries() async {
     // Get a reference to the database.
     final db = await instance.database;
-
     // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps = await db.query('groceries');
-
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return Grocery(
@@ -79,7 +78,6 @@ class GroceriesDatabase {
   Future<void> updateGrocery(Grocery grocery) async {
     // Get a reference to the database.
     final db = await instance.database;
-
     // Update the given Dog.
     await db.update(
       'groceries',
@@ -95,7 +93,6 @@ class GroceriesDatabase {
   Future<void> deleteGrocery(int id) async {
     // Get a reference to the database.
     final db = await instance.database;
-
     // Remove the Grocery from the database.
     await db.delete(
       'groceries',
@@ -106,9 +103,9 @@ class GroceriesDatabase {
     );
   }
 
+  /// Close the database instance.
   Future close() async {
     final db = await instance.database;
     db.close();
   }
-
 }
