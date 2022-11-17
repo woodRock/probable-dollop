@@ -183,7 +183,7 @@ class _GroceriesPageState extends State<GroceriesPage> {
                       style: _biggerFont,
                     ),
                     subtitle: Text(
-                      _groceries[index].price.toString()
+                      '\$${_groceries[index].price.toString()}'
                     ),
                     trailing: Icon(
                       alreadySaved ? Icons.favorite : Icons.favorite_border,
@@ -217,7 +217,7 @@ class _GroceriesPageState extends State<GroceriesPage> {
                     style: _biggerFont,
                   ),
                   subtitle: Text(
-                    grocery.price.toString()
+                    '\$${grocery.price.toString()}'
                   ),
                 );
               },
