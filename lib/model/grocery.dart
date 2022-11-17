@@ -14,8 +14,8 @@ class Grocery {
     required this.price,
   });
 
-  // Convert a Dog into a Map. The keys must correspond to the names of the
-  // columns in the database.
+  /// Convert a Grocery into a Map. The keys must correspond to the names of the
+  /// columns in the database.
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -25,10 +25,22 @@ class Grocery {
     };
   }
 
-  // Implement toString to make it easier to see information about
-  // each dog when using the print statement.
+  /// Shows the contents of a grocery object in a format suitable for debugging.
   @override
   String toString() {
     return 'Grocery{id: $id, icon: $icon, name: $name, price: $price}';
   }
+
+  /// Two groceries are equal to eachother, if they have matching ids.
+  @override
+  bool operator ==(other) {
+    if (other is! Grocery) {
+      return false;
+    }
+    return id == other.id && name == other.name;
+  }
+
+  /// Hash code is the id for the grocery.
+  @override
+  int get hashCode => (id).hashCode;
 }

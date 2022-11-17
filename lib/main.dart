@@ -2,7 +2,7 @@
 /// ================
 /// The entry point for the application.
 import 'package:flutter/material.dart';
-import 'package:stock/screens/groceries_page.dart';
+import 'package:stock/screens/groceries.dart';
 
 void main() {
   runApp(const MyApp());
