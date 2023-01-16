@@ -50,7 +50,8 @@ class GroceriesDatabase {
   /// A function that inserts a grocery into the database.
   Future<void> insertGrocery(Grocery grocery) async {
     final db = await instance.database;
-    final id = await db.insert(
+    // This returns the id, it can be used for tests/logging.
+    await db.insert(
       'groceries',
       grocery.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,

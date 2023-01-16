@@ -2,17 +2,21 @@
 /// ===============================
 /// The favorites screen gives a list of the groceries that have been favorited.
 /// It calculates the total cost of the list, and displays this at the bottom.
+import 'dart:collection';
+
 import 'package:english_words/english_words.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/grocery.dart';
 
 class FavoritesPage extends StatefulWidget {
-  final Set<Grocery> saved;
+  // SplaySet accepts a comparator, so we can sort favorites alphabetically.
+  final saved = SplayTreeSet<Grocery>((a, b) => a.name.compareTo(b.name));
 
-  const FavoritesPage({Key? key, required this.saved}) : super(key: key);
+  FavoritesPage({super.key, required Set<Grocery> saved}){
+    this.saved.addAll(saved);
+  }
 
   @override
   State<FavoritesPage> createState() => _FavoritesPageState();

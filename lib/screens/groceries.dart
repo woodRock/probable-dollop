@@ -66,6 +66,9 @@ class _GroceriesPageState extends State<GroceriesPage> {
 
     // Used to keep track of the autoincrement ID.
     counter = _groceries.length;
+
+    // Sort the grocery list alphabetically by name.
+    _groceries.sort((a, b) => a.name.compareTo(b.name));
   }
 
   /// Drop the database.
