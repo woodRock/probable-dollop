@@ -19,7 +19,8 @@ class GroceriesPage extends StatefulWidget {
 /// This class stores the state for the stateful groceries widget above.
 class _GroceriesPageState extends State<GroceriesPage> {
   /// Counter keeps track of auto-increment ID.
-  static int counter = 1;
+  // Note: -1 indicates an empty grocery list.
+  static int counter = -1;
 
   final _groceries = <Grocery>[];
   final _saved = <Grocery>{};
@@ -65,6 +66,7 @@ class _GroceriesPageState extends State<GroceriesPage> {
     setState(() => isLoading = false);
 
     // Used to keep track of the autoincrement ID.
+    // Note: computers count from 0 index.
     counter = _groceries.length;
 
     // Sort the grocery list alphabetically by name.
@@ -290,6 +292,7 @@ class _GroceriesPageState extends State<GroceriesPage> {
                       if (formKey.currentState!.validate()) {
                         // Construct the edited grocery.
                         var newGrocery = Grocery(
+                            // New grocery has next free index in db.
                             id: counter + 1,
                             icon: iconController.text,
                             name: nameController.text,
@@ -301,8 +304,6 @@ class _GroceriesPageState extends State<GroceriesPage> {
                         refreshGroceries();
                         // Return to the previous page, the grocery list.
                         Navigator.of(context).pop();
-                        // Increment the app counter.
-                        counter = counter + 1;
                       }
                     },
                     child: const Text('Submit'),
